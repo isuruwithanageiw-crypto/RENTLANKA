@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="si" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RENTLANKA - Vehicle Rental Services Sri Lanka</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lanka: {
+                            blue: '#0A2540',
+                            navy: '#06192E',
+                            gold: '#FFC72C',
+                            yellow: '#FFB800',
+                            accent: '#1E40AF'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col font-sans text-slate-800 antialiased selection:bg-lanka-gold selection:text-slate-900">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-lanka-navy text-slate-300 text-xs py-2 px-4 flex justify-between items-center border-b border-slate-800">
+        <div class="flex items-center gap-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-lanka-gold animate-pulse"></span>
+            <span data-i18n="topBar">ලංකාවේ විශාලතම වාහන රෙන්ට් සේවාව - Rent Any Vehicle Instantly!</span>
+        </div>
+        <div class="hidden md:flex gap-4 text-slate-400">
+            <span class="hover:text-white transition cursor-pointer"><i class="fa-solid fa-phone text-lanka-gold mr-1"></i> Hotline: 077 123 4567</span>
+            <span class="hover:text-white transition cursor-pointer"><i class="fa-solid fa-location-dot text-lanka-gold mr-1"></i> Colombo, Kandy, Galle & Islandwide</span>
+        </div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="bg-white sticky top-0 z-40 shadow-sm border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-lanka-blue flex items-center justify-center text-lanka-gold shadow-md font-black text-xl border border-yellow-400/30">
+                        <i class="fa-solid fa-car-side"></i>
+                    </div>
+                    <div>
+                        <a href="#" class="text-lg font-black tracking-tighter text-lanka-blue flex items-center gap-1">
+                            RENT<span class="text-lanka-gold bg-lanka-navy px-1.5 py-0.5 rounded-lg text-sm">LANKA</span>
+                        </a>
+                        <p class="text-[10px] text-slate-400 font-medium tracking-wide">SRI LANKA RENT HUB</p>
+                    </div>
+                </div>
+
+                <!-- Nav Links (Desktop) -->
+                <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-600">
+                    <a href="#vehicles" class="hover:text-lanka-blue transition" data-i18n="navAllVehicles">සියලු වාහන</a>
+                    <a href="#categories" class="hover:text-lanka-blue transition" data-i18n="navCategories">වර්ගීකරණය</a>
+                    <a href="#how-it-works" class="hover:text-lanka-blue transition" data-i18n="navHowItWorks">ක්‍රියාකාරීත්වය</a>
+                </nav>
+
+                <!-- Right Actions: Language Selector, Admin & List Vehicle Button -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <!-- Trilingual Language Switcher -->
+                    <div class="bg-slate-100 p-1 rounded-xl flex items-center text-xs font-bold text-slate-600 border border-slate-200">
+                        <button type="button" onclick="setLanguage('si')" id="lang-si" class="px-2 py-1 rounded-lg transition bg-lanka-blue text-lanka-gold">සිං</button>
+                        <button type="button" onclick="setLanguage('ta')" id="lang-ta" class="px-2 py-1 rounded-lg transition">தமிழ்</button>
+                        <button type="button" onclick="setLanguage('en')" id="lang-en" class="px-2 py-1 rounded-lg transition">EN</button>
+                    </div>
+
+                    <!-- Admin Panel Button -->
+                    <button type="button" onclick="openAdminLoginModal()" class="bg-slate-900 hover:bg-slate-800 text-lanka-gold font-bold text-xs px-3.5 py-2.5 rounded-xl shadow-md transition flex items-center gap-1.5 border border-slate-700 cursor-pointer">
+                        <i class="fa-solid fa-shield-halved text-sm"></i>
+                        <span class="hidden sm:inline">Admin</span>
+                    </button>
+
+                    <!-- Add Vehicle Button -->
+                    <button type="button" onclick="openAddVehicleModal()" class="bg-lanka-blue hover:bg-lanka-navy text-lanka-gold font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-md transition flex items-center gap-2 border border-yellow-400/30 cursor-pointer">
+                        <i class="fa-solid fa-plus-circle text-sm"></i>
+                        <span class="hidden sm:inline" data-i18n="btnListVehicle">ඔබේ වාහනය එක් කරන්න</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Body -->
+    <main class="flex-1">
+
+        <!-- Hero Section with Search Filter -->
+        <section class="relative bg-gradient-to-b from-lanka-navy via-lanka-blue to-slate-900 text-white py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#FFC72C_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            
+            <div class="max-w-5xl mx-auto text-center relative z-10">
+                <span class="inline-flex items-center gap-1.5 bg-lanka-gold/15 text-lanka-gold border border-lanka-gold/30 text-xs font-bold px-3.5 py-1.5 rounded-full mb-6">
+                    🇱🇰 Sri Lanka's #1 Vehicle Rental Hub
+                </span>
+                <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight mb-4" data-i18n="heroTitle">
+                    ඕනෑම ගමනකට හරියන <br class="hidden sm:inline"><span class="text-transparent bg-clip-text bg-gradient-to-r from-lanka-gold via-amber-300 to-yellow-400">ඕනෑම වාහනයක්</span> පහසුවෙන්ම රෙන්ට් කරන්න!
+                </h1>
+                <p class="text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto mb-10" data-i18n="heroSub">
+                    කාර්, වෑන්, බයික්, ත්‍රීවීල්, SUV හෝ බස් - ඔබේ අවශ්‍යතාවයට ගැලපෙනම වාහනය දිවයින පුරාම හොඳම මිල ගණන් යටතේ දැන් සොයාගන්න.
+                </p>
+
+                <!-- Search Filter Box -->
+                <div class="bg-white rounded-3xl p-4 sm:p-6 shadow-2xl text-slate-800 text-left border border-white/20">
+                    <form id="searchForm" onsubmit="handleSearch(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        
+                        <!-- Category Select -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1.5" data-i18n="labelCategory">වාහන වර්ගය</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                    <i class="fa-solid fa-car"></i>
+                                </span>
+                                <select id="searchCategory" class="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-9 pr-3.5 py-3 text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                                    <option value="all" data-i18n="optAllTypes">සියලු වර්ග (All Types)</option>
+                                    <option value="car">Car (කාර්)</option>
+                                    <option value="van">Van (වෑන්)</option>
+                                    <option value="suv">SUV / Jeep</option>
+                                    <option value="bike">Bike (මෝටර් බයික්)</option>
+                                    <option value="tuk">Three Wheeler (ත්‍රීවීල්)</option>
+                                    <option value="bus">Bus / Coaster</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- District Select (All 25 Districts of Sri Lanka) -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1.5" data-i18n="labelLocation">දිස්ත්‍රික්කය</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </span>
+                                <select id="searchLocation" class="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-9 pr-3.5 py-3 text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                                    <option value="all" data-i18n="optAllDistricts">සියලුම දිස්ත්‍රික්ක (Islandwide)</option>
+                                    <option value="Colombo">Colombo (කොළඹ)</option>
+                                    <option value="Gampaha">Gampaha (ගම්පහ)</option>
+                                    <option value="Kalutara">Kalutara (කළුතර)</option>
+                                    <option value="Kandy">Kandy (මහනුවර)</option>
+                                    <option value="Matale">Matale (මාතලේ)</option>
+                                    <option value="Nuwara Eliya">Nuwara Eliya (නුවරඑළිය)</option>
+                                    <option value="Galle">Galle (ගාල්ල)</option>
+                                    <option value="Matara">Matara (මාතර)</option>
+                                    <option value="Hambantota">Hambantota (හම්බන්තොට)</option>
+                                    <option value="Jaffna">Jaffna (යාපනය)</option>
+                                    <option value="Kilinochchi">Kilinochchi (කිලිනොච්චිය)</option>
+                                    <option value="Mannar">Mannar (මන්නාරම)</option>
+                                    <option value="Vavuniya">Vavuniya (වවුනියාව)</option>
+                                    <option value="Mullaitivu">Mullaitivu (මුලතිව්)</option>
+                                    <option value="Batticaloa">Batticaloa (මඩකලපුව)</option>
+                                    <option value="Ampara">Ampara (අම්පාර)</option>
+                                    <option value="Trincomalee">Trincomalee (ත්‍රිකුණාමලය)</option>
+                                    <option value="Kurunegala">Kurunegala (කුරුණෑගල)</option>
+                                    <option value="Puttalam">Puttalam (පුත්තලම)</option>
+                                    <option value="Anuradhapura">Anuradhapura (අනුරාධපුරය)</option>
+                                    <option value="Polonnaruwa">Polonnaruwa (පොළොන්නරුව)</option>
+                                    <option value="Badulla">Badulla (බදුල්ල)</option>
+                                    <option value="Monaragala">Monaragala (මොනරාගල)</option>
+                                    <option value="Ratnapura">Ratnapura (රත්නපුරය)</option>
+                                    <option value="Kegalle">Kegalle (කෑගල්ල)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Driver Option & Search Button -->
+                        <div class="flex flex-col justify-end">
+                            <label class="block text-xs font-bold text-slate-600 mb-1.5" data-i18n="labelDriveType">ධාවන ආකාරය</label>
+                            <div class="flex gap-2">
+                                <select id="searchDriverOption" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                                    <option value="all" data-i18n="optAnyOption">ඕනෑම ක්‍රමයක්</option>
+                                    <option value="self" data-i18n="optSelfDrive">Self Drive</option>
+                                    <option value="driver" data-i18n="optWithDriver">With Driver</option>
+                                </select>
+                                <button type="submit" class="bg-lanka-gold hover:bg-lanka-yellow text-lanka-navy font-black px-6 py-3 rounded-2xl shadow-lg transition flex items-center justify-center gap-2 border border-yellow-300 cursor-pointer">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <span class="hidden sm:inline" data-i18n="btnSearch">සොයන්න</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Quick Badges -->
+        <section id="categories" class="py-8 bg-white border-b border-slate-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-base font-bold text-slate-900" data-i18n="headingCategories">වාහන වර්ග (Categories)</h2>
+                    <button type="button" onclick="resetFilters()" class="text-xs font-semibold text-lanka-blue hover:underline" data-i18n="btnReset">Reset All Filters</button>
+                </div>
+                <div class="flex gap-3 overflow-x-auto pb-2 no-scrollbar scroll-smooth">
+                    <button type="button" onclick="filterByCategory('all', this)" class="cat-btn flex-shrink-0 bg-lanka-blue text-lanka-gold px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 shadow-sm transition">
+                        <i class="fa-solid fa-border-all"></i> <span data-i18n="catAll">සියල්ල</span>
+                    </button>
+                    <button type="button" onclick="filterByCategory('car', this)" class="cat-btn flex-shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-xs font-medium flex items-center gap-2 transition">
+                        <i class="fa-solid fa-car"></i> Cars
+                    </button>
+                    <button type="button" onclick="filterByCategory('van', this)" class="cat-btn flex-shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-xs font-medium flex items-center gap-2 transition">
+                        <i class="fa-solid fa-van-shuttle"></i> Vans
+                    </button>
+                    <button type="button" onclick="filterByCategory('suv', this)" class="cat-btn flex-shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-xs font-medium flex items-center gap-2 transition">
+                        <i class="fa-solid fa-truck-monster"></i> SUVs
+                    </button>
+                    <button type="button" onclick="filterByCategory('bike', this)" class="cat-btn flex-shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-xs font-medium flex items-center gap-2 transition">
+                        <i class="fa-solid fa-motorcycle"></i> Bikes
+                    </button>
+                    <button type="button" onclick="filterByCategory('tuk', this)" class="cat-btn flex-shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-xs font-medium flex items-center gap-2 transition">
+                        <i class="fa-solid fa-taxi"></i> Three Wheelers
+                    </button>
+                    <button type="button" onclick="filterByCategory('bus', this)" class="cat-btn flex-shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-xs font-medium flex items-center gap-2 transition">
+                        <i class="fa-solid fa-bus"></i> Busses
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vehicle Listing Grid -->
+        <section id="vehicles" class="py-12 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight" data-i18n="headingAvailableVehicles">ලබාගත හැකි වාහන</h2>
+                        <p class="text-xs text-slate-500 mt-1" data-i18n="subAvailableVehicles">ඔබට අවශ්‍ය වාහනය තෝරා Book Now මත ක්ලික් කරන්න.</p>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs text-slate-500">
+                        <span data-i18n="lblSortBy">Sort By:</span>
+                        <select id="sortBy" onchange="renderVehicles()" class="bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none font-medium">
+                            <option value="featured" data-i18n="optFeatured">විශේෂිත (Featured)</option>
+                            <option value="price-low" data-i18n="optPriceLow">මිල: අඩුම සිට වැඩිම</option>
+                            <option value="price-high" data-i18n="optPriceHigh">මිල: වැඩිම සිට අඩුම</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Cards Grid -->
+                <div id="vehicleContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                    <!-- Dynamic rendering via JS -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="hidden text-center py-16 bg-white rounded-3xl border border-dashed border-slate-300">
+                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400 text-2xl">
+                        <i class="fa-solid fa-car-side"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800" data-i18n="emptyTitle">වාහන කිසිවක් හමු නොවීය!</h3>
+                    <p class="text-xs text-slate-500 max-w-sm mx-auto mt-1 mb-4" data-i18n="emptySub">ඔබ සෙවූ පරාමිතීන්ට අනුව වාහන හමු වූයේ නැත. කරුණාකර Filter වෙනස් කර නැවත උත්සාහ කරන්න.</p>
+                    <button type="button" onclick="resetFilters()" class="bg-lanka-blue text-white text-xs font-semibold px-4 py-2 rounded-xl" data-i18n="btnShowAll">සියලු වාහන පෙන්වන්න</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="py-16 bg-white border-t border-slate-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <h2 class="text-2xl font-black text-slate-900" data-i18n="howItWorksTitle">RENTLANKA ක්‍රියා කරන්නේ කෙසේද?</h2>
+                    <p class="text-slate-500 text-xs sm:text-sm mt-2" data-i18n="howItWorksSub">පියවර 3 කින් ඉතා පහසුවෙන් ඔබේ වාහන අවශ්‍යතාවය සපුරා ගන්න</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-slate-50 rounded-2xl p-6 text-center border border-slate-100">
+                        <div class="w-14 h-14 bg-lanka-blue/10 text-lanka-blue rounded-2xl flex items-center justify-center mx-auto text-2xl font-bold mb-4">1</div>
+                        <h3 class="font-bold text-slate-900 mb-2" data-i18n="step1Title">වාහනයක් තෝරන්න</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed" data-i18n="step1Desc">අපගේ වෙබ් අඩවියේ ඇති වාහන අතරින් ඔබේ ගමනට සහ අයවැයට ගැලපෙනම වාහනය තෝරාගන්න.</p>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-2xl p-6 text-center border border-slate-100">
+                        <div class="w-14 h-14 bg-lanka-gold/30 text-amber-800 rounded-2xl flex items-center justify-center mx-auto text-2xl font-bold mb-4">2</div>
+                        <h3 class="font-bold text-slate-900 mb-2" data-i18n="step2Title">Online Pay & Book කරන්න</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed" data-i18n="step2Desc">Online Card Gateway හෝ BOC 73932147 ගිණුම හරහා ගෙවීම් කර ඔබේ ගමන තහවුරු කරගන්න.</p>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-2xl p-6 text-center border border-slate-100">
+                        <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto text-2xl font-bold mb-4">3</div>
+                        <h3 class="font-bold text-slate-900 mb-2" data-i18n="step3Title">සුරක්ෂිතව ගමන යන්න</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed" data-i18n="step3Desc">වාහනය ලබාගෙන ඔබේ ගමන විශ්වාසනීය ලෙස සහ සතුටින් නිම කරන්න.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-lanka-navy text-slate-400 text-xs py-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+            <div>
+                <p class="text-white font-bold text-sm mb-1">RENTLANKA (Pvt) Ltd</p>
+                <p class="text-slate-400">© 2026 RENTLANKA. All Rights Reserved. Sri Lanka's Vehicle Rental Platform.</p>
+            </div>
+            <div class="flex gap-4 text-lanka-gold">
+                <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-lanka-gold hover:text-lanka-navy transition"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-lanka-gold hover:text-lanka-navy transition"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-lanka-gold hover:text-lanka-navy transition"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal 1: Admin Login Modal -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-8 shadow-2xl relative border border-slate-100 text-center">
+            <button type="button" onclick="closeAdminLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-base w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="w-14 h-14 rounded-2xl bg-lanka-navy text-lanka-gold flex items-center justify-center mx-auto text-2xl mb-4 shadow-md border border-amber-400/30">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h3 class="text-xl font-black text-slate-900">Protected Admin Portal</h3>
+            <p class="text-xs text-slate-500 mt-1 mb-5">ආරක්ෂිත ඇඩ්මින් පැනලය වෙත පිවිසීමට ඔබේ රහස් Master Passcode සහ Security PIN ඇතුළත් කරන්න.</p>
+
+            <form onsubmit="verifyAdminLogin(event)" class="space-y-3">
+                <div class="relative">
+                    <input type="password" id="adminPasscodeInput" autocomplete="off" placeholder="Master Passcode" required class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-10 py-3 text-center text-sm font-bold tracking-wider focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                    <button type="button" onclick="toggleAdminPassVisibility()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer">
+                        <i id="adminPassEyeIcon" class="fa-solid fa-eye text-xs"></i>
+                    </button>
+                </div>
+                <div>
+                    <input type="password" id="adminPinInput" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="4-Digit Security PIN (****)" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-center text-sm font-mono font-bold tracking-[0.5em] focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                    <p id="adminAttemptsNotice" class="text-[11px] text-rose-600 font-bold mt-1.5 hidden"></p>
+                </div>
+                <button type="submit" id="adminLoginSubmitBtn" class="w-full bg-lanka-blue hover:bg-lanka-navy text-lanka-gold font-black py-3 rounded-xl shadow-lg transition text-sm flex items-center justify-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-key text-xs"></i>
+                    <span>Verify & Unlock Admin</span>
+                </button>
+            </form>
+            <p class="text-[10px] text-slate-400 mt-4"><i class="fa-solid fa-lock text-emerald-600 mr-1"></i>Secure 2-Step Verification</p>
+        </div>
+    </div>
+
+    <!-- Modal 2: Admin Panel (Vehicle Approvals & Management) -->
+    <div id="adminModal" class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-4xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto border border-slate-100">
+            <button type="button" onclick="closeAdminModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-lanka-navy text-lanka-gold flex items-center justify-center font-bold text-xl shadow-md">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-black text-slate-900">RENTLANKA Admin Panel</h3>
+                        <p class="text-xs text-slate-500">වාහන ලියාපදිංචි කිරීම් පරීක්ෂා කර අනුමත කිරීම (Vehicle Approvals)</p>
+                    </div>
+                </div>
+                <div class="flex gap-2 text-xs">
+                    <div class="bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-xl font-bold text-amber-900">
+                        Pending: <span id="adminPendingCount">0</span>
+                    </div>
+                    <div class="bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl font-bold text-emerald-900">
+                        Active: <span id="adminActiveCount">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Vehicle Verification List -->
+            <div class="space-y-4">
+                <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-lanka-blue"></i>
+                    <span>ලියාපදිංචි කරන ලද සියලුම වාහන ලැයිස්තුව (All Submissions)</span>
+                </h4>
+
+                <div id="adminVehicleTableContainer" class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-600 border-b border-slate-200">
+                                <th class="p-3 rounded-l-xl font-bold">Vehicle / Owner</th>
+                                <th class="p-3 font-bold">District / Price</th>
+                                <th class="p-3 font-bold">Owner Bank (90% Payout)</th>
+                                <th class="p-3 font-bold">Status</th>
+                                <th class="p-3 rounded-r-xl font-bold text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminVehicleTableBody" class="divide-y divide-slate-100">
+                            <!-- Rendered dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="adminEmptyState" class="hidden text-center py-12 text-slate-400">
+                    <i class="fa-solid fa-folder-open text-3xl mb-2"></i>
+                    <p class="text-xs font-semibold">තවම ලියාපදිංචි කළ වාහන කිසිවක් නොමැත.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Add New Vehicle -->
+    <div id="addVehicleModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto border border-slate-100">
+            <button type="button" onclick="closeAddVehicleModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-lanka-blue text-lanka-gold flex items-center justify-center font-bold text-lg">
+                    <i class="fa-solid fa-car-tunnel"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-slate-900">ඔබගේ වාහනය ලියාපදිංචි කරන්න</h3>
+                    <p class="text-xs text-slate-500">වාහන විස්තර ඇතුළත් කර දැන්ම Rent එකට දෙන්න.</p>
+                </div>
+            </div>
+
+            <form onsubmit="submitNewVehicle(event)" class="space-y-4 text-xs sm:text-sm">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">වාහනයේ නම / මාදිලිය (Title)</label>
+                    <input type="text" id="addTitle" placeholder="Eg: Toyota Prius 2018 / Honda Vezel" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">වාහන වර්ගය</label>
+                        <select id="addCategory" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                            <option value="car">Car (කාර්)</option>
+                            <option value="van">Van (වෑන්)</option>
+                            <option value="suv">SUV / Jeep</option>
+                            <option value="bike">Bike (මෝටර් බයික්)</option>
+                            <option value="tuk">Three Wheeler (ත්‍රීවීල්)</option>
+                            <option value="bus">Bus / Coaster</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">දිස්ත්‍රික්කය</label>
+                        <select id="addLocation" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                            <option value="Colombo">Colombo (කොළඹ)</option>
+                            <option value="Gampaha">Gampaha (ගම්පහ)</option>
+                            <option value="Kalutara">Kalutara (කළුතර)</option>
+                            <option value="Kandy">Kandy (මහනුවර)</option>
+                            <option value="Matale">Matale (මාතලේ)</option>
+                            <option value="Nuwara Eliya">Nuwara Eliya (නුවරඑළිය)</option>
+                            <option value="Galle">Galle (ගාල්ල)</option>
+                            <option value="Matara">Matara (මාතර)</option>
+                            <option value="Hambantota">Hambantota (හම්බන්තොට)</option>
+                            <option value="Jaffna">Jaffna (යාපනය)</option>
+                            <option value="Kilinochchi">Kilinochchi (කිලිනොච්චිය)</option>
+                            <option value="Mannar">Mannar (මන්නාරම)</option>
+                            <option value="Vavuniya">Vavuniya (වවුනියාව)</option>
+                            <option value="Mullaitivu">Mullaitivu (මුලතිව්)</option>
+                            <option value="Batticaloa">Batticaloa (මඩකලපුව)</option>
+                            <option value="Ampara">Ampara (අම්පාර)</option>
+                            <option value="Trincomalee">Trincomalee (ත්‍රිකුණාමලය)</option>
+                            <option value="Kurunegala">Kurunegala (කුරුණෑගල)</option>
+                            <option value="Puttalam">Puttalam (පුත්තලම)</option>
+                            <option value="Anuradhapura">Anuradhapura (අනුරාධපුරය)</option>
+                            <option value="Polonnaruwa">Polonnaruwa (පොළොන්නරුව)</option>
+                            <option value="Badulla">Badulla (බදුල්ල)</option>
+                            <option value="Monaragala">Monaragala (මොනරාගල)</option>
+                            <option value="Ratnapura">Ratnapura (රත්නපුරය)</option>
+                            <option value="Kegalle">Kegalle (කෑගල්ල)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">දිනකට අයකිරීම (Rs.)</label>
+                        <input type="number" id="addPrice" placeholder="7500" required oninput="updateCommissionPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">ධාවන ආකාරය</label>
+                        <select id="addDriverOption" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                            <option value="self">Self Drive (ස්වයං ධාවනය)</option>
+                            <option value="driver">With Driver (රියදුරු සමඟ)</option>
+                            <option value="both">දෙකම ලබාගත හැක (Both)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Commission info badge for owner -->
+                <div id="commissionInfoBadge" class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-900 hidden space-y-1">
+                    <div class="flex justify-between font-medium">
+                        <span>RENTLANKA 10% Commission:</span>
+                        <span id="previewCommission" class="font-bold">Rs. 0</span>
+                    </div>
+                    <div class="flex justify-between font-bold text-emerald-700 pt-1 border-t border-amber-200/60">
+                        <span>ඔබට හිමිවන ශුද්ධ ආදායම (Your Net Earnings):</span>
+                        <span id="previewOwnerEarnings" class="font-extrabold">Rs. 0 / Day</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">ආසන ගණන (Seats)</label>
+                        <input type="number" id="addSeats" placeholder="5" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">ඉන්ධන වර්ගය (Fuel)</label>
+                        <select id="addFuel" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                            <option value="Petrol">Petrol</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Hybrid">Hybrid</option>
+                            <option value="Electric">Electric</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">දුරකථන අංකය</label>
+                        <input type="tel" id="addPhone" placeholder="0771234567" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">වාහනයේ ඡායාරූප Link (URL)</label>
+                        <input type="url" id="addImage" placeholder="https://..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                    </div>
+                </div>
+
+                <!-- Owner Bank Account Section (For Payouts) -->
+                <div class="bg-slate-100/80 p-3.5 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-building-columns text-lanka-blue text-sm"></i>
+                        <span class="font-bold text-slate-800 text-xs">ඔබගේ බැංකු ගිණුම් විස්තර (90% Payout එක ලබාගැනීමට)</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" id="ownerBankName" placeholder="Bank Name (උදා: BOC)" required class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-2 text-xs focus:outline-none">
+                        <input type="text" id="ownerBranch" placeholder="Branch Name" required class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-2 text-xs focus:outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" id="ownerAccNo" placeholder="Account Number" required class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-2 text-xs focus:outline-none">
+                        <input type="text" id="ownerAccName" placeholder="Account Holder Name" required class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-2 text-xs focus:outline-none">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-lanka-gold hover:bg-lanka-yellow text-lanka-navy font-black py-3 rounded-xl shadow-lg transition text-base mt-2 border border-yellow-300" data-i18n="btnSubmitVehicle">
+                    වාහනය ලියාපදිංචි කරන්න
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 4: Quick Booking with Online Payment Gateway -->
+    <div id="bookingModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
+            <button type="button" onclick="closeBookingModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="mb-4">
+                <span class="text-xs font-bold text-lanka-blue uppercase tracking-wider">Vehicle Booking</span>
+                <h3 id="modalVehicleTitle" class="text-xl font-black text-slate-900 mt-0.5">Toyota Axio</h3>
+                <p id="modalVehiclePrice" class="text-xs text-slate-500 font-semibold mt-1">Rs. 9,500 / Per Day</p>
+            </div>
+
+            <form onsubmit="submitBooking(event)" class="space-y-3.5 text-xs sm:text-sm">
+                <input type="hidden" id="modalVehicleId">
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">ආරම්භක දිනය</label>
+                        <input type="date" id="startDate" required onchange="calculateTotalCost()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lanka-blue text-xs">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">අවසාන දිනය</label>
+                        <input type="date" id="endDate" required onchange="calculateTotalCost()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lanka-blue text-xs">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">ඔබගේ නම</label>
+                    <input type="text" id="custName" placeholder="ඔබගේ නම ඇතුළත් කරන්න" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">දුරකථන අංකය</label>
+                    <input type="tel" id="custPhone" placeholder="0771234567" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                </div>
+
+                <!-- Total Amount & 10% Commission Breakdown Banner -->
+                <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200 space-y-1.5 text-xs">
+                    <div class="flex justify-between items-center text-slate-600">
+                        <span id="totalDaysCount">1 දිනක් සඳහා</span>
+                        <span id="subtotalAmount" class="font-bold text-slate-800">Rs. 0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-amber-700 font-medium pt-1 border-t border-slate-200/60">
+                        <span><i class="fa-solid fa-shield-halved text-[10px] mr-1"></i> RENTLANKA Platform Fee (10%):</span>
+                        <span id="commissionAmount" class="font-bold">Rs. 0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-emerald-700 font-medium">
+                        <span><i class="fa-solid fa-hand-holding-dollar text-[10px] mr-1"></i> Owner Net Payout (90%):</span>
+                        <span id="ownerEarningsAmount" class="font-bold">Rs. 0</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-2 border-t border-slate-300 text-slate-900 font-extrabold text-sm">
+                        <span>ගෙවිය යුතු මුළු මුදල (Total Payable):</span>
+                        <span id="modalTotalAmount" class="text-lanka-navy font-black text-base">Rs. 0</span>
+                    </div>
+                </div>
+
+                <!-- Interactive Online Payment Gateway Options -->
+                <div class="border border-slate-200 rounded-2xl p-3.5 bg-slate-50/50 space-y-3">
+                    <label class="block font-extrabold text-slate-800 text-xs flex items-center justify-between">
+                        <span><i class="fa-solid fa-credit-card text-lanka-blue mr-1.5"></i>ගෙවීම් ක්‍රමය තෝරන්න</span>
+                        <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">256-bit SSL Secure</span>
+                    </label>
+
+                    <!-- Payment Method Tabs -->
+                    <div class="grid grid-cols-2 gap-2 text-xs font-bold">
+                        <button type="button" id="payMethodCardBtn" onclick="switchPaymentMethod('card')" class="py-2 px-3 rounded-xl border border-lanka-blue bg-lanka-blue text-white flex items-center justify-center gap-1.5 transition cursor-pointer">
+                            <i class="fa-solid fa-credit-card"></i> Online Card Pay
+                        </button>
+                        <button type="button" id="payMethodBankBtn" onclick="switchPaymentMethod('bank')" class="py-2 px-3 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 flex items-center justify-center gap-1.5 transition cursor-pointer">
+                            <i class="fa-solid fa-building-columns"></i> BOC Bank Transfer
+                        </button>
+                    </div>
+
+                    <!-- Option A: Card Payment Gateway -->
+                    <div id="cardPaymentSection" class="space-y-2.5 pt-1">
+                        <div class="flex items-center justify-between mb-1">
+                            <div class="flex items-center gap-1.5 text-slate-700 text-base">
+                                <i class="fa-brands fa-cc-visa text-blue-800 text-xl"></i>
+                                <i class="fa-brands fa-cc-mastercard text-orange-600 text-xl"></i>
+                                <i class="fa-brands fa-cc-amex text-sky-600 text-xl"></i>
+                            </div>
+                            <span class="text-[10px] text-slate-500 font-medium">Instant Card Gateway</span>
+                        </div>
+                        <div>
+                            <input type="text" id="cardNumber" placeholder="4000 1234 5678 9010" maxlength="19" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                            <input type="password" id="cardCvc" placeholder="CVC / CVV" maxlength="4" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                        </div>
+                        <div>
+                            <input type="text" id="cardHolder" placeholder="Cardholder Name (කාඩ්පතේ නම)" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-lanka-blue">
+                        </div>
+                    </div>
+
+                    <!-- Option B: Direct BOC Bank Transfer -->
+                    <div id="bankPaymentSection" class="hidden space-y-2 pt-1">
+                        <div class="bg-white p-2.5 rounded-xl border border-slate-200 font-mono text-[11px] text-slate-700">
+                            <span class="block font-bold text-lanka-navy">Bank: Bank of Ceylon (BOC)</span>
+                            <span class="block">Acc Name: RENTLANKA PRIVATE LIMITED</span>
+                            <span class="block font-extrabold text-slate-900">Acc No: 73932147</span>
+                        </div>
+                        <p class="text-[10px] text-slate-500">BOC 73932147 ගිණුමට මුදල් තැන්පත් කළ පසු Payment Slip ඡායාරූපය WhatsApp හරහා යොමු කරන්න.</p>
+                    </div>
+                </div>
+
+                <button type="submit" id="paySubmitBtn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl shadow-lg transition text-base flex items-center justify-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-lock text-sm"></i>
+                    <span id="paySubmitBtnText">Pay Online & Confirm Booking</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 5: Booking Success & Owner Contact Details -->
+    <div id="bookingSuccessModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative border border-slate-100 text-center">
+            <button type="button" onclick="closeSuccessModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-base w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-3xl mb-4 shadow-md border border-emerald-200 animate-bounce">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3 class="text-2xl font-black text-slate-900">බුකින් එක සාර්ථකයි!</h3>
+            <p class="text-xs text-slate-500 mt-1 mb-5">ඔබගේ ගෙවීම RENTLANKA පද්ධතියට ලැබී ඇත. වාහන හිමිකරු සම්බන්ධ කරගැනීමට පහත විස්තර භාවිතා කරන්න.</p>
+            
+            <!-- Vehicle Owner Contact Info Card -->
+            <div class="bg-lanka-navy/5 border border-lanka-navy/15 rounded-2xl p-4 text-left space-y-3 mb-6">
+                <div class="flex items-center gap-2 pb-2 border-b border-slate-200">
+                    <i class="fa-solid fa-id-card text-lanka-blue text-base"></i>
+                    <span class="font-extrabold text-slate-900 text-xs uppercase tracking-wide">වාහන හිමිකරුගේ විස්තර (Owner Contact)</span>
+                </div>
+                <div class="flex justify-between items-center text-xs">
+                    <span class="text-slate-500">වාහනය:</span>
+                    <span id="successVehicleTitle" class="font-bold text-slate-800">Toyota Axio</span>
+                </div>
+                <div class="flex justify-between items-center text-xs">
+                    <span class="text-slate-500">දුරකථන අංකය:</span>
+                    <a id="successOwnerPhoneLink" href="#" class="font-black text-lanka-blue text-sm flex items-center gap-1">
+                        <i class="fa-solid fa-phone"></i>
+                        <span id="successOwnerPhone">077 123 4567</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <a id="successWhatsappBtn" href="#" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl shadow-lg transition text-xs sm:text-sm flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>වාහන හිමිකරුට WhatsApp පණිවිඩයක් යවන්න</span>
+                </a>
+                <button type="button" onclick="closeSuccessModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs cursor-pointer">
+                    වසන්න (Close)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-lanka-navy text-white px-5 py-3 rounded-2xl shadow-2xl z-50 flex items-center gap-3 transition-all duration-300 transform translate-y-20 opacity-0 border border-lanka-gold/40">
+        <div class="w-3 h-3 bg-lanka-gold rounded-full animate-ping"></div>
+        <span id="toastMessage" class="text-xs font-bold">සාර්ථකයි!</span>
+    </div>
+
+    <!-- App Logic Script -->
+    <script>
+        let adminFailedAttempts = 0;
+        let adminLockoutEndTime = 0;
+
+        function sanitizeInput(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#x27;')
+                .replace(/\//g, '&#x2F;');
+        }
+
+        let vehicles = [
+            {
+                id: 1,
+                title: "Toyota Axio Hybrid 2017",
+                category: "car",
+                location: "Colombo",
+                price: 9500,
+                driverOption: "both",
+                seats: 5,
+                fuel: "Hybrid",
+                transmission: "Auto",
+                image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=800&q=80",
+                rating: 4.9,
+                reviews: 42,
+                phone: "0771234567",
+                status: "approved",
+                bankInfo: { bank: "BOC", branch: "Colombo Fort", accNo: "88451234", accName: "K. Perera" }
+            },
+            {
+                id: 2,
+                title: "Toyota KDH High Roof Van",
+                category: "van",
+                location: "Kandy",
+                price: 16500,
+                driverOption: "driver",
+                seats: 14,
+                fuel: "Diesel",
+                transmission: "Auto",
+                image: "https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&w=800&q=80",
+                rating: 4.8,
+                reviews: 31,
+                phone: "0712345678",
+                status: "approved",
+                bankInfo: { bank: "Commercial Bank", branch: "Kandy", accNo: "1002345678", accName: "N. Silva" }
+            },
+            {
+                id: 3,
+                title: "Honda Vezel RS Sensing",
+                category: "suv",
+                location: "Galle",
+                price: 12500,
+                driverOption: "self",
+                seats: 5,
+                fuel: "Hybrid",
+                transmission: "Auto",
+                image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80",
+                rating: 4.9,
+                reviews: 27,
+                phone: "0763456789",
+                status: "approved",
+                bankInfo: { bank: "HNB", branch: "Galle", accNo: "023020112233", accName: "S. Fernando" }
+            }
+        ];
+
+        const translations = {
+            si: {
+                topBar: "ලංකාවේ විශාලතම වාහන රෙන්ට් සේවාව - Rent Any Vehicle Instantly!",
+                navAllVehicles: "සියලු වාහන",
+                navCategories: "වර්ගීකරණය",
+                navHowItWorks: "ක්‍රියාකාරීත්වය",
+                btnListVehicle: "ඔබේ වාහනය එක් කරන්න",
+                heroTitle: 'ඕනෑම ගමනකට හරියන <br class="hidden sm:inline"><span class="text-transparent bg-clip-text bg-gradient-to-r from-lanka-gold via-amber-300 to-yellow-400">ඕනෑම වාහනයක්</span> පහසුවෙන්ම රෙන්ට් කරන්න!',
+                heroSub: "කාර්, වෑන්, බයික්, ත්‍රීවීල්, SUV හෝ බස් - ඔබේ අවශ්‍යතාවයට ගැලපෙනම වාහනය දිවයින පුරාම හොඳම මිල ගණන් යටතේ දැන් සොයාගන්න.",
+                labelCategory: "වාහන වර්ගය",
+                optAllTypes: "සියලු වර්ග (All Types)",
+                labelLocation: "දිස්ත්‍රික්කය",
+                optAllDistricts: "සියලුම දිස්ත්‍රික්ක (Islandwide)",
+                labelDriveType: "ධාවන ආකාරය",
+                optAnyOption: "ඕනෑම ක්‍රමයක්",
+                optSelfDrive: "Self Drive",
+                optWithDriver: "With Driver",
+                btnSearch: "සොයන්න",
+                headingCategories: "වාහන වර්ග (Categories)",
+                btnReset: "Reset All Filters",
+                catAll: "සියල්ල",
+                headingAvailableVehicles: "ලබාගත හැකි වාහන",
+                subAvailableVehicles: "ඔබට අවශ්‍ය වාහනය තෝරා Book Now මත ක්ලික් කරන්න.",
+                lblSortBy: "Sort By:",
+                optFeatured: "විශේෂිත (Featured)",
+                optPriceLow: "මිල: අඩුම සිට වැඩිම",
+                optPriceHigh: "මිල: වැඩිම සිට අඩුම",
+                emptyTitle: "වාහන කිසිවක් හමු නොවීය!",
+                emptySub: "ඔබ සෙවූ පරාමිතීන්ට අනුව වාහන හමු වූයේ නැත. කරුණාකර Filter වෙනස් කර නැවත උත්සාහ කරන්න.",
+                btnShowAll: "සියලු වාහන පෙන්වන්න",
+                howItWorksTitle: "RENTLANKA ක්‍රියා කරන්නේ කෙසේද?",
+                howItWorksSub: "පියවර 3 කින් ඉතා පහසුවෙන් ඔබේ වාහන අවශ්‍යතාවය සපුරා ගන්න",
+                step1Title: "වාහනයක් තෝරන්න",
+                step1Desc: "අපගේ වෙබ් අඩවියේ ඇති වාහන අතරින් ඔබේ ගමනට සහ අයවැයට ගැලපෙනම වාහනය තෝරාගන්න.",
+                step2Title: "Online Pay & Book කරන්න",
+                step2Desc: "Online Card Gateway හෝ BOC 73932147 ගිණුම හරහා ගෙවීම් කර ඔබේ ගමන තහවුරු කරගන්න.",
+                step3Title: "සුරක්ෂිතව ගමන යන්න",
+                step3Desc: "වාහනය ලබාගෙන ඔබේ ගමන විශ්වාසනීය ලෙස සහ සතුටින් නිම කරන්න.",
+                selfDriveBadge: "Self Drive",
+                withDriverBadge: "With Driver",
+                bothBadge: "Self / Driver",
+                perDay: "දිනකට (Per Day)",
+                bookNow: "Book Now"
+            },
+            ta: {
+                topBar: "இலங்கையின் மிகப்பெரிய வாகன வாடகை சேவை - Rent Any Vehicle Instantly!",
+                navAllVehicles: "அனைத்து வாகனங்கள்",
+                navCategories: "வகைகள்",
+                navHowItWorks: "செயல்முறை",
+                btnListVehicle: "வாகனத்தை இணைக்கவும்",
+                heroTitle: 'எந்தப் பயணத்திற்கும் ஏற்ற <br class="hidden sm:inline"><span class="text-transparent bg-clip-text bg-gradient-to-r from-lanka-gold via-amber-300 to-yellow-400">எந்த வாகனத்தையும்</span> எளிதாக வாடகைக்கு எடுங்கள்!',
+                heroSub: "கார், வேன், பைக், முச்சக்கரவண்டி, SUV அல்லது பஸ் - நாடளாவிய ரீதியில் சிறந்த விலையில் வாகனங்களை இப்போதே தேடுங்கள்.",
+                labelCategory: "வாகன வகை",
+                optAllTypes: "அனைத்து வகைகள் (All Types)",
+                labelLocation: "மாவட்டம்",
+                optAllDistricts: "அனைத்து மாவட்டங்கள் (Islandwide)",
+                labelDriveType: "ஓட்டுநர் முறை",
+                optAnyOption: "எந்த முறையும்",
+                optSelfDrive: "Self Drive",
+                optWithDriver: "With Driver",
+                btnSearch: "தேடுக",
+                headingCategories: "வாகன வகைகள் (Categories)",
+                btnReset: "வடிகட்டிகளை மீட்டமை",
+                catAll: "அனைத்தும்",
+                headingAvailableVehicles: "கிடைக்கக்கூடிய வாகனங்கள்",
+                subAvailableVehicles: "உங்களுக்கு தேவையான வாகனத்தை தேர்ந்தெடுத்து Book Now அழுத்தவும்.",
+                lblSortBy: "வரிசைப்படுத்து:",
+                optFeatured: "சிறப்பு (Featured)",
+                optPriceLow: "விலை: குறைந்தது முதல் அதிகம்",
+                optPriceHigh: "விலை: அதிகம் முதல் குறைந்தது",
+                emptyTitle: "வாகனங்கள் எதுவும் கிடைக்கவில்லை!",
+                emptySub: "நீங்கள் தேடிய விவரங்களுக்கு ஏற்ப வாகனங்கள் இல்லை.",
+                btnShowAll: "அனைத்து வாகனங்களையும் காட்டு",
+                howItWorksTitle: "RENTLANKA எவ்வாறு செயல்படுகிறது?",
+                howItWorksSub: "3 எளிய படிகளில் உங்கள் வாகனத் தேவையை பூர்த்தி செய்யுங்கள்",
+                step1Title: "வாகனத்தை தேர்ந்தெடுக்கவும்",
+                step1Desc: "உங்கள் பயணத்திற்கும் பட்ஜெட்டிற்கும் ஏற்ற சிறந்த வாகனத்தை தேர்ந்தெடுக்கவும்.",
+                step2Title: "Online Pay & Book செய்யவும்",
+                step2Desc: "Online Card அல்லது BOC 73932147 கணக்கு மூலம் பணம் செலுத்தி முன்பதிவை உறுதிப்படுத்தவும்.",
+                step3Title: "பாதுகாப்பாக பயணிக்கவும்",
+                step3Desc: "வாகனத்தை பெற்று உங்கள் பயணத்தை பாதுகாப்பாகவும் மகிழ்ச்சியாகவும் நிறைவு செய்யுங்கள்.",
+                selfDriveBadge: "Self Drive",
+                withDriverBadge: "With Driver",
+                bothBadge: "Self / Driver",
+                perDay: "ஒரு நாளுக்கு (Per Day)",
+                bookNow: "Book Now"
+            },
+            en: {
+                topBar: "Sri Lanka's #1 Vehicle Rental Marketplace - Rent Any Vehicle Instantly!",
+                navAllVehicles: "All Vehicles",
+                navCategories: "Categories",
+                navHowItWorks: "How It Works",
+                btnListVehicle: "List Your Vehicle",
+                heroTitle: 'Rent <span class="text-transparent bg-clip-text bg-gradient-to-r from-lanka-gold via-amber-300 to-yellow-400">Any Vehicle</span> Across Sri Lanka <br class="hidden sm:inline">In Just Seconds!',
+                heroSub: "Cars, Vans, Bikes, Three-Wheelers, SUVs, or Buses - Find the perfect ride at the best islandwide rates.",
+                labelCategory: "Vehicle Type",
+                optAllTypes: "All Vehicle Types",
+                labelLocation: "District",
+                optAllDistricts: "All Districts (Islandwide)",
+                labelDriveType: "Drive Option",
+                optAnyOption: "Any Drive Option",
+                optSelfDrive: "Self Drive",
+                optWithDriver: "With Driver",
+                btnSearch: "Search",
+                headingCategories: "Vehicle Categories",
+                btnReset: "Reset All Filters",
+                catAll: "All Vehicles",
+                headingAvailableVehicles: "Available Vehicles",
+                subAvailableVehicles: "Select your preferred vehicle and click Book Now to reserve.",
+                lblSortBy: "Sort By:",
+                optFeatured: "Featured",
+                optPriceLow: "Price: Low to High",
+                optPriceHigh: "Price: High to Low",
+                emptyTitle: "No Vehicles Found!",
+                emptySub: "No vehicles matched your search criteria. Please adjust your filters.",
+                btnShowAll: "Show All Vehicles",
+                howItWorksTitle: "How RENTLANKA Works",
+                howItWorksSub: "Book your ideal vehicle in 3 simple, secure steps",
+                step1Title: "Choose a Vehicle",
+                step1Desc: "Browse our verified islandwide fleet and pick the vehicle that fits your journey.",
+                step2Title: "Online Pay & Confirm",
+                step2Desc: "Pay securely via Online Card Gateway or BOC 73932147 to confirm your booking instantly.",
+                step3Title: "Enjoy Your Ride",
+                step3Desc: "Pick up your vehicle or meet your driver and travel safely across Sri Lanka.",
+                selfDriveBadge: "Self Drive",
+                withDriverBadge: "With Driver",
+                bothBadge: "Self / Driver",
+                perDay: "Per Day",
+                bookNow: "Book Now"
+            }
+        };
+
+        let currentLang = 'si';
+        let currentSelectedVehicle = null;
+        let selectedPaymentMethod = 'card';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            ['si', 'ta', 'en'].forEach(l => {
+                const btn = document.getElementById(`lang-${l}`);
+                if (btn) {
+                    if (l === lang) {
+                        btn.classList.add('bg-lanka-blue', 'text-lanka-gold');
+                    } else {
+                        btn.classList.remove('bg-lanka-blue', 'text-lanka-gold');
+                    }
+                }
+            });
+
+            const dict = translations[lang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.innerHTML = dict[key];
+                }
+            });
+
+            renderVehicles();
+        }
+
+        function renderVehicles(filteredList = null) {
+            const container = document.getElementById('vehicleContainer');
+            const emptyState = document.getElementById('emptyState');
+            if (!container) return;
+
+            const sourceList = filteredList || vehicles;
+            const listToRender = sourceList.filter(v => v.status === 'approved');
+            const langDict = translations[currentLang];
+
+            const sortBy = document.getElementById('sortBy')?.value || 'featured';
+            if (sortBy === 'price-low') {
+                listToRender.sort((a, b) => a.price - b.price);
+            } else if (sortBy === 'price-high') {
+                listToRender.sort((a, b) => b.price - a.price);
+            }
+
+            container.innerHTML = '';
+
+            if (listToRender.length === 0) {
+                emptyState?.classList.remove('hidden');
+                return;
+            } else {
+                emptyState?.classList.add('hidden');
+            }
+
+            listToRender.forEach(v => {
+                const driverBadge = v.driverOption === 'self' 
+                    ? `<span class="bg-blue-50 text-lanka-blue text-[10px] font-bold px-2.5 py-1 rounded-md border border-blue-100"><i class="fa-solid fa-user-gear mr-1"></i>${langDict.selfDriveBadge}</span>`
+                    : (v.driverOption === 'driver' 
+                        ? `<span class="bg-amber-50 text-amber-800 text-[10px] font-bold px-2.5 py-1 rounded-md border border-amber-200"><i class="fa-solid fa-user-tie mr-1"></i>${langDict.withDriverBadge}</span>`
+                        : `<span class="bg-emerald-50 text-emerald-800 text-[10px] font-bold px-2.5 py-1 rounded-md border border-emerald-200"><i class="fa-solid fa-check-double mr-1"></i>${langDict.bothBadge}</span>`);
+
+                const cardHtml = `
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200/80 flex flex-col group">
+                        <div class="relative h-48 sm:h-52 overflow-hidden bg-slate-100">
+                            <img src="${v.image}" loading="lazy" alt="${sanitizeInput(v.title)}" onerror="this.src='https://placehold.co/600x400/0A2540/FFC72C?text=RentLanka+Vehicle'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 left-3 bg-lanka-navy/90 backdrop-blur-md text-white text-[11px] font-semibold px-2.5 py-1 rounded-full border border-lanka-gold/30">
+                                <i class="fa-solid fa-location-dot text-lanka-gold mr-1"></i>${sanitizeInput(v.location)}
+                            </div>
+                            <div class="absolute top-3 right-3">${driverBadge}</div>
+                        </div>
+
+                        <div class="p-5 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-black text-slate-900 text-base mb-1">${sanitizeInput(v.title)}</h3>
+                                <div class="flex items-center gap-1.5 text-xs text-amber-500 mb-3">
+                                    <i class="fa-solid fa-star"></i>
+                                    <span class="font-bold text-slate-700">${v.rating}</span>
+                                    <span class="text-slate-400">(${v.reviews} reviews)</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 py-3 border-y border-slate-100 my-3 text-slate-500 text-xs font-medium">
+                                    <div class="flex items-center gap-1.5"><i class="fa-solid fa-users text-slate-400"></i><span>${v.seats} Seats</span></div>
+                                    <div class="flex items-center gap-1.5"><i class="fa-solid fa-gas-pump text-slate-400"></i><span>${sanitizeInput(v.fuel)}</span></div>
+                                    <div class="flex items-center gap-1.5"><i class="fa-solid fa-gear text-slate-400"></i><span>${v.transmission}</span></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between pt-2">
+                                <div>
+                                    <span class="text-xs text-slate-400 block">${langDict.perDay}</span>
+                                    <span class="text-lg font-black text-lanka-navy">Rs. ${v.price.toLocaleString()}</span>
+                                </div>
+                                <button type="button" onclick="openBookingModal(${v.id})" class="bg-lanka-gold hover:bg-lanka-yellow text-lanka-navy text-xs font-black px-4 py-2.5 rounded-xl shadow-md transition flex items-center gap-1.5 border border-yellow-300 cursor-pointer">
+                                    <span>${langDict.bookNow}</span>
+                                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', cardHtml);
+            });
+        }
+
+        function filterByCategory(cat, btnElement) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-lanka-blue', 'text-lanka-gold', 'font-bold');
+                btn.classList.add('bg-slate-100', 'text-slate-700');
+            });
+            if (btnElement) {
+                btnElement.classList.remove('bg-slate-100', 'text-slate-700');
+                btnElement.classList.add('bg-lanka-blue', 'text-lanka-gold', 'font-bold');
+            }
+            if (cat === 'all') {
+                renderVehicles(vehicles);
+            } else {
+                renderVehicles(vehicles.filter(v => v.category === cat));
+            }
+        }
+
+        function handleSearch(e) {
+            e.preventDefault();
+            const category = document.getElementById('searchCategory').value;
+            const location = document.getElementById('searchLocation').value;
+            const driverOption = document.getElementById('searchDriverOption').value;
+
+            let result = vehicles;
+            if (category !== 'all') result = result.filter(v => v.category === category);
+            if (location !== 'all') result = result.filter(v => v.location === location);
+            if (driverOption !== 'all') result = result.filter(v => v.driverOption === driverOption || v.driverOption === 'both');
+
+            renderVehicles(result);
+            document.getElementById('vehicles').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetFilters() {
+            document.getElementById('searchForm').reset();
+            renderVehicles(vehicles);
+        }
+
+        function openBookingModal(vehicleId) {
+            currentSelectedVehicle = vehicles.find(v => v.id === vehicleId);
+            if (!currentSelectedVehicle) return;
+
+            document.getElementById('modalVehicleId').value = currentSelectedVehicle.id;
+            document.getElementById('modalVehicleTitle').innerText = currentSelectedVehicle.title;
+            document.getElementById('modalVehiclePrice').innerText = `Rs. ${currentSelectedVehicle.price.toLocaleString()} / Per Day (${currentSelectedVehicle.location})`;
+
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('startDate').value = today.toISOString().split('T')[0];
+            document.getElementById('endDate').value = tomorrow.toISOString().split('T')[0];
+
+            switchPaymentMethod('card');
+            calculateTotalCost();
+            document.getElementById('bookingModal').classList.remove('hidden');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+        }
+
+        function calculateTotalCost() {
+            if (!currentSelectedVehicle) return;
+            const startVal = document.getElementById('startDate').value;
+            const endVal = document.getElementById('endDate').value;
+
+            let diffDays = 1;
+            if (startVal && endVal) {
+                const diffTime = new Date(endVal) - new Date(startVal);
+                diffDays = Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+            }
+
+            const total = diffDays * currentSelectedVehicle.price;
+            const commission = Math.round(total * 0.10);
+            const ownerNet = total - commission;
+
+            document.getElementById('totalDaysCount').innerText = `${diffDays} දිනක් සඳහා`;
+            document.getElementById('subtotalAmount').innerText = `Rs. ${total.toLocaleString()}`;
+            document.getElementById('commissionAmount').innerText = `Rs. ${commission.toLocaleString()}`;
+            document.getElementById('ownerEarningsAmount').innerText = `Rs. ${ownerNet.toLocaleString()}`;
+            document.getElementById('modalTotalAmount').innerText = `Rs. ${total.toLocaleString()}`;
+        }
+
+        function switchPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            const cardBtn = document.getElementById('payMethodCardBtn');
+            const bankBtn = document.getElementById('payMethodBankBtn');
+            const cardSec = document.getElementById('cardPaymentSection');
+            const bankSec = document.getElementById('bankPaymentSection');
+            const btnText = document.getElementById('paySubmitBtnText');
+
+            if (method === 'card') {
+                cardBtn.className = "py-2 px-3 rounded-xl border border-lanka-blue bg-lanka-blue text-white flex items-center justify-center gap-1.5 transition cursor-pointer";
+                bankBtn.className = "py-2 px-3 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 flex items-center justify-center gap-1.5 transition cursor-pointer";
+                cardSec.classList.remove('hidden');
+                bankSec.classList.add('hidden');
+                if (btnText) btnText.innerText = "Pay Online & Confirm Booking";
+            } else {
+                bankBtn.className = "py-2 px-3 rounded-xl border border-lanka-blue bg-lanka-blue text-white flex items-center justify-center gap-1.5 transition cursor-pointer";
+                cardBtn.className = "py-2 px-3 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 flex items-center justify-center gap-1.5 transition cursor-pointer";
+                bankSec.classList.remove('hidden');
+                cardSec.classList.add('hidden');
+                if (btnText) btnText.innerText = "Confirm & Send BOC Bank Slip";
+            }
+        }
+
+        function submitBooking(e) {
+            e.preventDefault();
+            const name = sanitizeInput(document.getElementById('custName').value);
+            const phone = sanitizeInput(document.getElementById('custPhone').value);
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const totalAmount = document.getElementById('modalTotalAmount').innerText;
+            const commissionAmount = document.getElementById('commissionAmount').innerText;
+            const ownerNet = document.getElementById('ownerEarningsAmount').innerText;
+
+            const submitBtn = document.getElementById('paySubmitBtn');
+            const originalBtnText = submitBtn.innerHTML;
+
+            if (selectedPaymentMethod === 'card') {
+                const cardNo = document.getElementById('cardNumber')?.value.replace(/\s+/g, '');
+                if (!cardNo || cardNo.length < 12) {
+                    showToast("කරුණාකර නිවැරදි Card විස්තර ඇතුළත් කරන්න!");
+                    return;
+                }
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<i class="fa-solid fa-shield-halved animate-spin text-lanka-gold"></i> Processing Payment...`;
+            }
+
+            setTimeout(() => {
+                closeBookingModal();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+
+                const payStatus = selectedPaymentMethod === 'card' ? 'ONLINE PAID (VISA/MASTER)' : 'PENDING BOC BANK TRANSFER (73932147)';
+                const message = `*RENTLANKA BOOKING & PAYMENT RECEIPT*\nStatus: ${payStatus}\n\nVehicle: ${currentSelectedVehicle.title}\nDistrict: ${currentSelectedVehicle.location}\nDates: ${startDate} to ${endDate}\n\nOwner Phone: ${currentSelectedVehicle.phone}\nTotal: ${totalAmount}\nPlatform Fee (10%): ${commissionAmount}\nOwner Payout (90%): ${ownerNet}\n\nCustomer: ${name} (${phone})`;
+                
+                // Automatically send receipt to admin WhatsApp (0768700660) for any user booking
+                const adminWhatsAppUrl = `https://wa.me/94768700660?text=${encodeURIComponent(message)}`;
+                window.open(adminWhatsAppUrl, '_blank');
+                
+                // Owner WhatsApp Url
+                const ownerWhatsappUrl = `https://wa.me/94${currentSelectedVehicle.phone.substring(1)}?text=${encodeURIComponent(message)}`;
+                
+                document.getElementById('successVehicleTitle').innerText = currentSelectedVehicle.title;
+                document.getElementById('successOwnerPhone').innerText = currentSelectedVehicle.phone;
+                document.getElementById('successOwnerPhoneLink').href = `tel:${currentSelectedVehicle.phone}`;
+                document.getElementById('successWhatsappBtn').href = ownerWhatsappUrl;
+
+                document.getElementById('bookingSuccessModal').classList.remove('hidden');
+                showToast("බුකින් එක සාර්ථකයි! රිසිට්පත 0768700660 වෙත ද යොමු විය.");
+            }, 800);
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('bookingSuccessModal').classList.add('hidden');
+        }
+
+        function openAddVehicleModal() {
+            document.getElementById('addVehicleModal').classList.remove('hidden');
+        }
+
+        function closeAddVehicleModal() {
+            document.getElementById('addVehicleModal').classList.add('hidden');
+        }
+
+        function updateCommissionPreview() {
+            const price = parseFloat(document.getElementById('addPrice').value) || 0;
+            const badge = document.getElementById('commissionInfoBadge');
+            if (price > 0) {
+                const comm = Math.round(price * 0.10);
+                const net = price - comm;
+                document.getElementById('previewCommission').innerText = `Rs. ${comm.toLocaleString()}`;
+                document.getElementById('previewOwnerEarnings').innerText = `Rs. ${net.toLocaleString()} / Day`;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function submitNewVehicle(e) {
+            e.preventDefault();
+            const newV = {
+                id: Date.now(),
+                title: sanitizeInput(document.getElementById('addTitle').value),
+                category: sanitizeInput(document.getElementById('addCategory').value),
+                location: sanitizeInput(document.getElementById('addLocation').value),
+                price: parseFloat(document.getElementById('addPrice').value),
+                driverOption: sanitizeInput(document.getElementById('addDriverOption').value),
+                seats: parseInt(document.getElementById('addSeats').value) || 4,
+                fuel: sanitizeInput(document.getElementById('addFuel').value),
+                transmission: "Auto",
+                image: sanitizeInput(document.getElementById('addImage').value) || 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80',
+                rating: 5.0,
+                reviews: 1,
+                phone: sanitizeInput(document.getElementById('addPhone').value),
+                status: 'pending',
+                bankInfo: {
+                    bank: sanitizeInput(document.getElementById('ownerBankName').value),
+                    branch: sanitizeInput(document.getElementById('ownerBranch').value),
+                    accNo: sanitizeInput(document.getElementById('ownerAccNo').value),
+                    accName: sanitizeInput(document.getElementById('ownerAccName').value)
+                }
+            };
+            vehicles.unshift(newV);
+            e.target.reset();
+            document.getElementById('commissionInfoBadge').classList.add('hidden');
+            closeAddVehicleModal();
+            showToast("වාහනය සාර්ථකව යොමු කළා! Admin අනුමත කළ පසු පෙන්වනු ඇත.");
+        }
+
+        function toggleAdminPassVisibility() {
+            const input = document.getElementById('adminPasscodeInput');
+            const icon = document.getElementById('adminPassEyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        function openAdminLoginModal() {
+            const now = Date.now();
+            if (now < adminLockoutEndTime) {
+                const rem = Math.ceil((adminLockoutEndTime - now) / 1000);
+                showToast(`Login තාවකාලිකව Block කර ඇත. තත්පර ${rem}කින් උත්සාහ කරන්න.`);
+                return;
+            }
+            document.getElementById('adminPasscodeInput').value = '';
+            document.getElementById('adminPasscodeInput').type = 'password';
+            document.getElementById('adminPassEyeIcon').className = 'fa-solid fa-eye text-xs';
+            document.getElementById('adminPinInput').value = '';
+            document.getElementById('adminAttemptsNotice').classList.add('hidden');
+            document.getElementById('adminLoginModal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('adminPasscodeInput').focus(), 100);
+        }
+
+        function closeAdminLoginModal() {
+            document.getElementById('adminLoginModal').classList.add('hidden');
+        }
+
+        function verifyAdminLogin(e) {
+            e.preventDefault();
+            const now = Date.now();
+            if (now < adminLockoutEndTime) return;
+
+            const passcode = document.getElementById('adminPasscodeInput').value.trim();
+            const pin = document.getElementById('adminPinInput').value.trim();
+
+            if (passcode === "I892483477v" && pin === "7393") {
+                adminFailedAttempts = 0;
+                closeAdminLoginModal();
+                renderAdminTable();
+                document.getElementById('adminModal').classList.remove('hidden');
+                showToast("Admin Portal වෙත සාර්ථකව පිවිසුණා!");
+            } else {
+                adminFailedAttempts++;
+                const notice = document.getElementById('adminAttemptsNotice');
+                if (adminFailedAttempts >= 3) {
+                    adminLockoutEndTime = Date.now() + 60000;
+                    notice.innerText = "ආරක්ෂිත හේතූන් මත තත්පර 60කට Lock කරන ලදී!";
+                    notice.classList.remove('hidden');
+                    showToast("වැරදි Passcode/PIN! තත්පර 60ක් Lock විය.");
+                    setTimeout(closeAdminLoginModal, 1500);
+                } else {
+                    notice.innerText = `වැරදි Passcode හෝ PIN! (තව උත්සාහයන් ${3 - adminFailedAttempts}ක් පමණි)`;
+                    notice.classList.remove('hidden');
+                    showToast("වැරදි Master Passcode හෝ PIN අංකයකි!");
+                }
+            }
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.add('hidden');
+        }
+
+        function renderAdminTable() {
+            const tbody = document.getElementById('adminVehicleTableBody');
+            const emptyState = document.getElementById('adminEmptyState');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            document.getElementById('adminPendingCount').innerText = vehicles.filter(v => v.status === 'pending').length;
+            document.getElementById('adminActiveCount').innerText = vehicles.filter(v => v.status === 'approved').length;
+
+            if (vehicles.length === 0) {
+                emptyState?.classList.remove('hidden');
+                return;
+            } else {
+                emptyState?.classList.add('hidden');
+            }
+
+            vehicles.forEach(v => {
+                const badge = v.status === 'approved'
+                    ? `<span class="bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full font-bold text-[10px]">Approved</span>`
+                    : `<span class="bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full font-bold text-[10px] animate-pulse">Pending</span>`;
+
+                const tr = `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-3">
+                            <div class="font-bold text-slate-900">${sanitizeInput(v.title)}</div>
+                            <div class="text-[11px] text-slate-500"><i class="fa-solid fa-phone mr-1"></i>${v.phone}</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-semibold text-slate-800">${sanitizeInput(v.location)}</div>
+                            <div class="text-[11px] text-lanka-blue font-bold">Rs. ${v.price.toLocaleString()}</div>
+                        </td>
+                        <td class="p-3 text-[11px] text-slate-600">
+                            <div><b>${sanitizeInput(v.bankInfo?.bank || 'N/A')}</b> (${sanitizeInput(v.bankInfo?.branch || '')})</div>
+                            <div class="font-mono text-slate-800">${sanitizeInput(v.bankInfo?.accNo || 'N/A')} - ${sanitizeInput(v.bankInfo?.accName || '')}</div>
+                        </td>
+                        <td class="p-3">${badge}</td>
+                        <td class="p-3 text-right space-x-1 whitespace-nowrap">
+                            ${v.status === 'pending' 
+                                ? `<button type="button" onclick="approveVehicle(${v.id})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg font-bold text-xs cursor-pointer">Approve</button>`
+                                : `<button type="button" onclick="rejectVehicle(${v.id})" class="bg-amber-100 hover:bg-amber-200 text-amber-800 px-3 py-1.5 rounded-lg font-bold text-xs cursor-pointer">Unapprove</button>`
+                            }
+                            <button type="button" onclick="deleteVehicle(${v.id})" class="bg-rose-100 hover:bg-rose-200 text-rose-700 px-2.5 py-1.5 rounded-lg font-bold text-xs cursor-pointer"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+                tbody.insertAdjacentHTML('beforeend', tr);
+            });
+        }
+
+        function approveVehicle(id) {
+            const v = vehicles.find(item => item.id === id);
+            if (v) {
+                v.status = 'approved';
+                renderAdminTable();
+                renderVehicles();
+                showToast(`වාහනය (${v.title}) අනුමත කරන ලදී!`);
+            }
+        }
+
+        function rejectVehicle(id) {
+            const v = vehicles.find(item => item.id === id);
+            if (v) {
+                v.status = 'pending';
+                renderAdminTable();
+                renderVehicles();
+                showToast(`වාහනය Pending තත්ත්වයට මාරු කළා.`);
+            }
+        }
+
+        function deleteVehicle(id) {
+            vehicles = vehicles.filter(item => item.id !== id);
+            renderAdminTable();
+            renderVehicles();
+            showToast("වාහනය ඉවත් කරන ලදී.");
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            document.getElementById('toastMessage').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            setLanguage('si');
+        });
+    </script>
+</body>
+</html>
